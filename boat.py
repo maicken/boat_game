@@ -17,8 +17,8 @@ class Boat(pygame.sprite.Sprite):
         self.img_orig = pygame.transform.rotate(self.image, -90)
 
         self.angle = 0
-        self.fe = 0.4
-        self.fd = 0.1
+        self.fe = 0
+        self.fd = 0
         self.m = MASS
         self.l = LENGTH
         self.k = K
@@ -30,9 +30,7 @@ class Boat(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=p0)
 
     def draw(self, screen):
-        pygame.draw.rect(self.image, (0, 0, 0), self.rect)
         screen.blit(self.image, (self.x, self.y))
-
 
     def move(self, dt, mv_x, mv_y):
         x_r = self.x - self.v * math.sin(math.radians(self.angle)) * dt
@@ -42,6 +40,7 @@ class Boat(pygame.sprite.Sprite):
         if mv_y:
             self.y = y_r
         self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
         self.rect.topleft = (self.x, self.y)
         return x_r, y_r
 
@@ -65,3 +64,9 @@ class Boat(pygame.sprite.Sprite):
         self.rotate(dt)
         new_x, new_y = self.move(dt, mv_x, mv_y)
         return new_x, new_y
+
+    def stop(self):
+        self.v = 0
+        self.w = 0
+        self.fe = 0
+        self.fd = 0

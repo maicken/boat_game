@@ -3,7 +3,7 @@ from settings import *
 import sys
 from boat import Boat
 from river import River
-
+from player import Player
 
 class Game:
 
@@ -16,16 +16,15 @@ class Game:
 
         self.clock = pygame.time.Clock()
         self.boat_1 = Boat()
-        self.group = []
-        self.group.append(self.boat_1)
+        self.player_1 = Player(self.boat_1)
+        self.boat_2 = Boat()
+        self.group.append(self.player_1)
         self.river = River(self.group)
 
         self.running = True
 
     def run(self):
-
         while self.running:
-
             self.event()
             self.update()
             self.draw()
@@ -35,21 +34,20 @@ class Game:
     def update(self):
         dt = self.clock.tick(FPS)
         self.river.update(dt)
+        for player in self.group:
+            player.update(self.river)
 
     def event(self):
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            if event.type == pygame.KEYDOWN:
-                print("TODO")
+                sys.exit()
 
     def draw(self):
-
         self.screen.fill(COLOR_RIVER)
         self.river.draw(self.screen)
-        for boat in self.group:
-            boat.draw(self.screen)
+        for player in self.group:
+            player.draw(self.screen)
 
 
 def main():

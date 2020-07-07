@@ -28,20 +28,17 @@ class River(pygame.sprite.Sprite):
         screen.blit(self.image, (self.x, self.y))
 
     def update(self, dt):
-        mv_x = True
-        mv_y = False
-        for boat in self.group:
-            if boat.y < self.camera[1] / 2:
-                mv_y = True
-            new_x, new_y = boat.update(dt, mv_x, mv_y)
+        mv_x = False
+        mv_y = True
+        for player in self.group:
+            if player.boat.y < self.camera[1] / 2:
+                mv_y = False
+            new_x, new_y = player.boat.update(dt, mv_x, mv_y)
             if not mv_x:
-                self.x -= new_x - boat.x
+                self.x -= new_x - player.boat.x
             if not mv_y:
-                self.y -= new_y - boat.y
+                self.y -= new_y - player.boat.y
             self.rect.topleft = (self.x, self.y)
-            col = pygame.sprite.collide_mask(self, boat)
+            col = pygame.sprite.collide_mask(self, player.boat)
             if col:
-                boat.v = 0
-                boat.w = 0
-                boat.fe = 0
-                boat.fd = 0
+                player.boat.stop()
