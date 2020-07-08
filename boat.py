@@ -28,21 +28,25 @@ class Boat(pygame.sprite.Sprite):
 
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(center=p0)
+        self.movement = True
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+        #pygame.draw.rect(screen, (255, 0, 0), self.rect)
 
-    def move(self, dt, mv_x, mv_y):
+    def move(self, dt):
         x_r = self.x - self.v * math.sin(math.radians(self.angle)) * dt
         y_r = self.y - self.v * math.cos(math.radians(self.angle)) * dt
-        if mv_x:
-            self.x = x_r
-        if mv_y:
-            self.y = y_r
+        mv_n_x = x_r - self.x
+        mv_n_y = y_r - self.y
+        self.x = x_r
+        self.y = y_r
+        return mv_n_x, mv_n_y
+
+    def update_rect_mask(self):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.x, self.y)
-        return x_r, y_r
 
     def rotate(self, dt):
         self.angle = self.angle + self.w * dt
@@ -58,15 +62,16 @@ class Boat(pygame.sprite.Sprite):
         else:
             self.w -= self.w ** 2 * self.k
 
-    def update(self, dt, mv_x, mv_y):
-        self.update_speed(dt)
-        self.update_angular_speed(dt)
-        self.rotate(dt)
-        new_x, new_y = self.move(dt, mv_x, mv_y)
-        return new_x, new_y
+    def update(self, dt):
+        if self.movement:
+            self.update_speed(dt)
+            self.update_angular_speed(dt)
+            self.rotate(dt)
+            mv_n_x, mv_n_y = self.move(dt)
+        else:
+            mv_n_x = 0
+            mv_n_y = 0
+        return mv_n_x, mv_n_y
 
     def stop(self):
-        self.v = 0
-        self.w = 0
-        self.fe = 0
-        self.fd = 0
+        self.movement = False

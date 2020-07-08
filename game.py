@@ -5,6 +5,7 @@ from boat import Boat
 from river import River
 from player import Player
 
+
 class Game:
 
     def __init__(self):
@@ -13,12 +14,15 @@ class Game:
         pygame.display.set_caption(TITLE)
         icon = pygame.image.load(PATH_ICON)
         pygame.display.set_icon(icon)
-
         self.clock = pygame.time.Clock()
-        self.boat_1 = Boat()
-        self.player_1 = Player(self.boat_1)
-        self.boat_2 = Boat()
-        self.group.append(self.player_1)
+
+        self.group = []
+
+        for i in range(NUM_PLAYER):
+            boat = Boat()
+            player = Player(boat)
+            self.group.append(player)
+
         self.river = River(self.group)
 
         self.running = True

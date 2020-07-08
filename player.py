@@ -1,6 +1,7 @@
 import pygame
 import math
 import random
+from NN import NN
 from settings import *
 
 
@@ -46,7 +47,11 @@ class Vision(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
-        pygame.draw.line(screen, (255,0,0), self.boat.rect.center, self.rect.center)
+        pygame.draw.line(screen, (255, 0, 0), self.boat.rect.center, self.rect.center)
+
+    def distance(self, boat):
+        return math.sqrt((boat.rect.center[0] - self.rect.center[0]) ** 2 +
+                         (boat.rect.center[1] - self.rect.center[1]) ** 2) / self.d
 
 
 class Player(object):
@@ -60,7 +65,9 @@ class Player(object):
         self.vision_4 = Vision(self.boat, 4)
         self.vision_5 = Vision(self.boat, 5)
 
-        self.set_f()
+        self.brain = NN()
+        self.brain.init_weights()
+
     def draw(self, screen):
         self.vision_1.draw(screen)
         self.vision_2.draw(screen)
@@ -76,6 +83,16 @@ class Player(object):
         self.vision_4.update(river)
         self.vision_5.update(river)
 
+        self.set_f()
+
     def set_f(self):
-        self.boat.fe = random.uniform(0, 1) - 0.1
-        self.boat.fd = random.uniform(0, 1) - 0.1
+        d1 = self.vision_1.distance(self.boat)
+        d2 = self.vision_2.distance(self.boat)
+        d3 = self.vision_3.distance(self.boat)
+        d4 = self.vision_4.distance(self.boat)
+
+        x = self.brain.forward([d1, d2, d3, d4])
+        x = x.data.tolist()
+        fe, fd = x
+        self.boat.fe = fe
+        self.boat.fd = fd
