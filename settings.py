@@ -24,13 +24,14 @@ WIDTH = 800
 HEIGHT = 1800
 
 MAX_VISION_DISTANCE = 300
-NUM_PLAYER = 3
+NUM_PLAYER = 20
 
-SAVE_PATH = "gen_save"
-LOAD_PATH = None
+SAVE_PATH = "models"
+SAVE_NAME = 'model_1.pth'
+LOAD_PATH = 'models/model_1.pth'
 
-TIME_MAX = 10
-END_GENERATION = 1
+TIME_MAX = 20
+END_GENERATION = 10
 
 GA_SETTINGS = {
 
@@ -66,7 +67,7 @@ GA_SETTINGS = {
     ## Selection ##
 
     # Number of parents that will be used for reproducing
-    'num_parents': 10,
+    'num_parents': 8,
     # Number of offspring that will be created. Keep num_offspring >= num_parents
     'num_offspring': 20,
     # The selection type to use for the next generation.

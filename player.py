@@ -57,9 +57,10 @@ class Vision(pygame.sprite.Sprite):
 
 class Player(Individual):
 
-    def __init__(self, boat):
+    def __init__(self, brain, boat):
         super().__init__()
         self.boat = boat
+        self.brain = brain
 
         self.vision_1 = Vision(self.boat, 1)
         self.vision_2 = Vision(self.boat, 2)
@@ -67,11 +68,7 @@ class Player(Individual):
         self.vision_4 = Vision(self.boat, 4)
         self.vision_5 = Vision(self.boat, 5)
 
-        self.brain = NN()
-        self.brain.init_weights()
-
         # VALUES TO CALCULATE FITNESS
-        # Force and distance
         self._fe_list = []
         self._fd_list = []
         self._fitness = 0
@@ -101,6 +98,7 @@ class Player(Individual):
 
         self._fitness = self.score - math.sqrt(self.score) * math.log(10 * f_std ** (1 / 3)) / f_avg ** (2 / 3)
 
+    @property
     def fitness(self):
         return self._fitness
 
@@ -146,3 +144,6 @@ class Player(Individual):
 
         self.boat.fe = fe
         self.boat.fd = fd
+
+    def show_brain(self):
+        self.brain.show()
