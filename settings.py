@@ -24,7 +24,13 @@ WIDTH = 800
 HEIGHT = 1800
 
 MAX_VISION_DISTANCE = 300
-NUM_PLAYER = 6
+NUM_PLAYER = 3
+
+SAVE_PATH = "gen_save"
+LOAD_PATH = None
+
+TIME_MAX = 10
+END_GENERATION = 1
 
 GA_SETTINGS = {
 
@@ -60,9 +66,9 @@ GA_SETTINGS = {
     ## Selection ##
 
     # Number of parents that will be used for reproducing
-    'num_parents': 500,
+    'num_parents': 10,
     # Number of offspring that will be created. Keep num_offspring >= num_parents
-    'num_offspring': 1000,
+    'num_offspring': 20,
     # The selection type to use for the next generation.
     # If selection_type == 'plus':
     #     Then the top num_parents will be chosen from (num_offspring + num_parents)
@@ -86,5 +92,4 @@ GA_SETTINGS = {
     # If the vision is binary, then the input into the Neural Network is 1 (can see) or 0 (cannot see).
     # If the vision is distance, then the input into the Neural Network is 1.0/distance.
     # 1.0/distance is used to keep values capped at 1.0 as a max.
-    'apple_and_self_vision': 'binary'  # Options are ['binary', 'distance']
 }

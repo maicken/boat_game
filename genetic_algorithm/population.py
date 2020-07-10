@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List
 from .individual import Individual
-    
+
 
 class Population(object):
     def __init__(self, individuals: List[Individual]):
@@ -25,7 +25,7 @@ class Population(object):
 
     @property
     def average_fitness(self) -> float:
-        return sum(individual.fitness for individual in self.individuals) / float(self.num_individuals)
+        return sum(individual.fitness() for individual in self.individuals) / float(self.num_individuals)
 
     @average_fitness.setter
     def average_fitness(self, val) -> None:
@@ -33,7 +33,7 @@ class Population(object):
 
     @property
     def fittest_individual(self) -> Individual:
-        return max(self.individuals, key = lambda individual: individual.fitness)
+        return max(self.individuals, key=lambda individual: individual.fitness())
 
     @fittest_individual.setter
     def fittest_individual(self, val) -> None:

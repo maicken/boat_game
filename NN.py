@@ -20,6 +20,6 @@ class NN(nn.Module):
         return out
 
     def init_weights(self):
-        torch.nn.init.xavier_uniform(self.l1.weight)
-        torch.nn.init.xavier_uniform(self.l2.weight)
-        torch.nn.init.xavier_uniform(self.l3.weight)
+        torch.nn.init.xavier_uniform_(self.l1.weight)
+        torch.nn.init.xavier_uniform_(self.l2.weight)
+        torch.nn.init.xavier_uniform_(self.l3.weight)

@@ -30,6 +30,8 @@ class Boat(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=p0)
         self.movement = True
 
+        self.points = [[0, 0]]
+
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
         #pygame.draw.rect(screen, (255, 0, 0), self.rect)
@@ -41,6 +43,8 @@ class Boat(pygame.sprite.Sprite):
         mv_n_y = y_r - self.y
         self.x = x_r
         self.y = y_r
+        self.points.append([x + y for x, y in zip(self.points[-1], [mv_n_x, mv_n_y])])
+
         return mv_n_x, mv_n_y
 
     def update_rect_mask(self):

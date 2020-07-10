@@ -11,7 +11,6 @@ def simulated_binary_crossover(parent1: np.ndarray, parent2: np.ndarray, eta: fl
     For small values of eta, offspring will be more distant from parents
 
     Equation 9.9, 9.10, 9.11
-    @TODO: Link equations
     """
     # Calculate Gamma (Eq. 9.11)
     rand = np.random.random(parent1.shape)

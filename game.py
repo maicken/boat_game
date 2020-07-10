@@ -8,24 +8,15 @@ from player import Player
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, group, screen):
 
-        self.screen = pygame.display.set_mode(CAMERA_SIZE)
-        pygame.display.set_caption(TITLE)
-        icon = pygame.image.load(PATH_ICON)
-        pygame.display.set_icon(icon)
+        self.screen = screen
         self.clock = pygame.time.Clock()
-
-        self.group = []
-
-        for i in range(NUM_PLAYER):
-            boat = Boat()
-            player = Player(boat)
-            self.group.append(player)
-
+        self.group = group
         self.river = River(self.group)
 
         self.running = True
+        self.time_run = 0
 
     def run(self):
         while self.running:
@@ -37,9 +28,18 @@ class Game:
 
     def update(self):
         dt = self.clock.tick(FPS)
+        self.time_run += dt
         self.river.update(dt)
+
+        end = True
         for player in self.group:
             player.update(self.river)
+            if player.boat.movement:
+                end = False
+        if end or self.time_run > TIME_MAX * 1000:
+            for player in self.group:
+                player.calculate_fitness()
+            self.running = False
 
     def event(self):
         for event in pygame.event.get():
@@ -52,15 +52,3 @@ class Game:
         self.river.draw(self.screen)
         for player in self.group:
             player.draw(self.screen)
-
-
-def main():
-
-    g = Game()
-    g.run()
-    pygame.quit()
-
-
-if __name__ == "__main__":
-    pygame.init()
-    main()

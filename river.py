@@ -28,7 +28,8 @@ class River(pygame.sprite.Sprite):
         screen.blit(self.image, (self.x, self.y))
 
     def update(self, dt):
-
+        mv_x = False
+        mv_y = True
         for player in self.group:
             if player.boat.y < self.camera[1] / 2:
                 mv_y = False
@@ -57,21 +58,14 @@ class River(pygame.sprite.Sprite):
             new_x_l.append(mv_n_x)
             new_y_l.append(mv_n_y)
 
-        new_x_max = max(new_x_l)
         new_y_max = max(new_y_l)
-
-        new_x_min = min(new_x_l)
         new_y_min = min(new_y_l)
-
-        if abs(new_x_max) > abs(new_x_min):
-            new_x = new_x_max
-        else:
-            new_x = new_x_min
 
         if abs(new_y_max) > abs(new_y_min):
             new_y = new_y_max
         else:
             new_y = new_y_min
+        new_x = new_x_l[new_y_l.index(new_y)]
 
         if mv_x:
             self.x -= new_x
