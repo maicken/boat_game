@@ -5,20 +5,30 @@ CAMERA_SIZE = (800, 900)
 PATH_BOAT = "images/boat_img.png"
 PATH_RIVER = "images/river1.png"
 PATH_ICON = "images/boat_icon.png"
+PATH_PADDLE_GREEN = "images/green_paddle.png"
+PATH_PADDLE_RED = "images/red_paddle.png"
 PATH_X = "images/X.png"
 COLOR_RIVER = (121, 191, 255)
 FPS = 30
 
 BOAT_INITIAL_POSITION = (320, 730)
 BOAT_SCALE = (120, 45)
-
+PADDLE_SCALE = (60, 20)
 RIVER_SCALE = (800, 1800)
 X_SCALE = (10, 10)
 
-MASS = 1000
-LENGTH = 0.00005
-K = 0.5
+# Physics
+MASS = 6000
+MASS_PADDER =  0.2
+LENGTH_BOAT = 100
 FORCE_LIMIT = 1
+VISCOSITY = 0.15
+LENGTH_PADDER = 0.00007
+LENGTH_PADDER_BOAT = 0.9
+AREA_BOAT = 3.2
+HEIGHT = 1
+MAX_ANGLE = 30
+
 
 WIDTH = 800
 HEIGHT = 1800
@@ -30,8 +40,8 @@ SAVE_PATH = "models"
 SAVE_NAME = 'model_1.pth'
 LOAD_PATH = 'models/model_1.pth'
 
-TIME_MAX = 20
-END_GENERATION = 10
+TIME_MAX = 10
+END_GENERATION = 100
 
 GA_SETTINGS = {
 
@@ -67,7 +77,7 @@ GA_SETTINGS = {
     ## Selection ##
 
     # Number of parents that will be used for reproducing
-    'num_parents': 8,
+    'num_parents': 10,
     # Number of offspring that will be created. Keep num_offspring >= num_parents
     'num_offspring': 20,
     # The selection type to use for the next generation.

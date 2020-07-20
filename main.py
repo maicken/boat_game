@@ -33,6 +33,7 @@ class MainWindows(object):
             self.gen.update()
         self.gen.save()
 
+
 class Generation(object):
 
     def __init__(self, screen):

@@ -80,7 +80,7 @@ class River(pygame.sprite.Sprite):
                 player.boat.x -= new_x
             if mv_y:
                 player.boat.y -= new_y
-            col = pygame.sprite.collide_mask(self, player.boat)
+            col = player.boat.collision(self)
             if col:
                 player.boat.stop()
             player.boat.update_rect_mask()

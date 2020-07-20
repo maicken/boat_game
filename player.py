@@ -73,6 +73,7 @@ class Player(Individual):
         self._fd_list = []
         self._fitness = 0
         self.score = 0
+        self.click = False
 
     def __str__(self):
         return str(self._fitness)
@@ -137,13 +138,24 @@ class Player(Individual):
 
         x = self.brain.forward([d1, d2, d3, d4])
         x = x.data.tolist()
-        fe, fd = x
+        fe, pe, fd, pd = x
+        fe = 2 * fe - 1
+        fd = 2 * fd - 1
+
+        if pe > 0.5:
+            self.boat.paddle_l.water = True
+        else:
+            self.boat.paddle_l.water = False
+        if pd > 0.5:
+            self.boat.paddle_r.water = True
+        else:
+            self.boat.paddle_r.water = False
 
         self._fe_list.append(fe)
         self._fd_list.append(fd)
 
-        self.boat.fe = fe
-        self.boat.fd = fd
+        self.boat.paddle_l.f = fe
+        self.boat.paddle_l.f = fd
 
     def show_brain(self):
         self.brain.show()
